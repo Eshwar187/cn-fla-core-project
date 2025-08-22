@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Site Filter Options</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; color: #0f172a; }
+      h1 { font-size: 20px; margin-bottom: 8px; }
+      p.hint { color: #475569; margin-top: 0; }
+      .row { display: flex; gap: 8px; margin: 12px 0 16px; }
+      input[type=text] { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; }
+      button { background: #111827; color: white; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+      button:hover { background: #0b1220; }
+      ul { list-style: none; padding-left: 0; }
+      li { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px; }
+      .muted { color: #64748b; font-size: 12px; }
+      .danger { background: #dc2626; }
+      .danger:hover { background: #b91c1c; }
+      code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <h1>Whitelist Management</h1>
+    <p class="hint">Add domains to allow beyond <code>.com</code> and <code>.org</code>. Examples: <code>example.net</code>, <code>sub.domain.edu</code>.</p>
+    <div class="row">
+      <input id="domain" type="text" placeholder="example.net" />
+      <button id="add">Add</button>
+    </div>
+
+    <ul id="list"></ul>
+    <p class="muted">Changes apply immediately. Rules are enforced by Chrome, independent of VPN or proxy.</p>
+
+    <script>
+      const listEl = document.getElementById('list');
+      const inputEl = document.getElementById('domain');
+      const addBtn = document.getElementById('add');
+
+      function normDomain(d) {
+        return d.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/$/, '');
+      }
+
+      async function load() {
+        const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
+        render(whitelist);
+      }
+
+      function render(items) {
+        listEl.innerHTML = '';
+        items.forEach((d, idx) => {
+          const li = document.createElement('li');
+          const span = document.createElement('span');
+          span.textContent = d;
+          const btn = document.createElement('button');
+          btn.textContent = 'Remove';
+          btn.className = 'danger';
+          btn.addEventListener('click', async () => {
+            const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
+            const next = whitelist.filter(x => x !== d);
+            await chrome.storage.sync.set({ whitelist: next });
+            render(next);
+          });
+          li.appendChild(span);
+          li.appendChild(btn);
+          listEl.appendChild(li);
+        });
+      }
+
+      addBtn.addEventListener('click', async () => {
+        const raw = inputEl.value;
+        const val = normDomain(raw);
+        if (!val) return;
+        const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
+        if (whitelist.includes(val)) {
+          inputEl.value = '';
+          return;
+        }
+        const next = [...whitelist, val];
+        await chrome.storage.sync.set({ whitelist: next });
+        inputEl.value = '';
+        render(next);
+      });
+
+      inputEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addBtn.click();
+      });
+
+      load();
+    </script>
+  </body>
+</html>

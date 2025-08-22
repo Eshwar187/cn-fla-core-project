@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "TLD Site Filter (.com/.org + whitelist)",
+  "version": "1.0.0",
+  "description": "Blocks all sites except .com and .org, with optional admin whitelist. Redirects blocked pages to a local notice.",
+  "permissions": ["declarativeNetRequest", "declarativeNetRequestWithRegex", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
