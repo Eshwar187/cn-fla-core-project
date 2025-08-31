@@ -1,4 +1,3 @@
-// MV3 service worker: install DNR rules to allow .com/.org and whitelist; redirect others to blocked.html
 
 const BASE_RULE_IDS = {
   ALLOW_COM: 1,
@@ -6,14 +5,14 @@ const BASE_RULE_IDS = {
   BLOCK_OTHERS: 3,
 };
 
-const DYNAMIC_RULE_START_ID = 1000; // whitelist rules start here
+const DYNAMIC_RULE_START_ID = 1000; 
 
 function escapeForRegex(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function domainToUrlRegex(domain) {
-  // Match any http(s) URL whose hostname ends with the domain (including subdomains)
+  
   const d = escapeForRegex(domain.trim());
   return `^https?:\\/\\/([^\/]+\\.)*${d}([\/:]|$)`;
 }
@@ -36,6 +35,14 @@ async function setBaseRules() {
       condition: {
         regexFilter: '^https?:\\/\\/([^\/]+\\.)*[^\/:]+\\.org([\/:]|$)',
         resourceTypes: ["main_frame"],
+      }},
+      {
+      id: BASE_RULE_IDS.ALLOW_ORG,
+      priority: 110,
+      action: { type: "allow" },
+      condition: {
+        regexFilter: '^https?:\\/\\/([^\/]+\\.)*[^\/:]+\\.in([\/:]|$)',
+        resourceTypes: ["main_frame"],
       },
     },
     {
@@ -43,7 +50,7 @@ async function setBaseRules() {
       priority: 1,
       action: { type: "redirect", redirect: { extensionPath: "/blocked.html" } },
       condition: {
-        regexFilter: '^https?:\\/\\/', // all http/https navigations
+        regexFilter: '^https?:\\/\\/', 
         resourceTypes: ["main_frame"],
       },
     },
