@@ -1,17 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "TLD Site Filter (.com/.org + whitelist)",
+  "name": "Cyber Guardian - Domain Filter",
   "version": "1.0.0",
-  "description": "Blocks all sites except .com and .org, with optional admin whitelist. Redirects blocked pages to a local notice.",
+  "description": "Security extension that allows only .com and .org domains, with customizable whitelist for additional trusted sites.",
   "permissions": ["declarativeNetRequest", "declarativeNetRequestWithRegex", "storage"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Cyber Guardian Settings"
+  },
   "options_page": "options.html",
   "web_accessible_resources": [
     {
-      "resources": ["blocked.html"],
+      "resources": ["blocked.html", "blocked.js"],
       "matches": ["<all_urls>"]
     }
   ]

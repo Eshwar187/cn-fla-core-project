@@ -3,89 +3,401 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Site Filter Options</title>
+    <title>🛡️ Cyber Guardian - Settings</title>
     <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; color: #0f172a; }
-      h1 { font-size: 20px; margin-bottom: 8px; }
-      p.hint { color: #475569; margin-top: 0; }
-      .row { display: flex; gap: 8px; margin: 12px 0 16px; }
-      input[type=text] { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; }
-      button { background: #111827; color: white; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
-      button:hover { background: #0b1220; }
-      ul { list-style: none; padding-left: 0; }
-      li { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px; }
-      .muted { color: #64748b; font-size: 12px; }
-      .danger { background: #dc2626; }
-      .danger:hover { background: #b91c1c; }
-      code { background: #f1f5f9; padding: 2px 6px; border-radius: 6px; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      body {
+        font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        animation: slide-in 0.6s ease-out;
+      }
+
+      @keyframes slide-in {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e1e8ed;
+      }
+
+      .logo {
+        font-size: 48px;
+        margin-bottom: 10px;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes glow {
+        from { text-shadow: 0 0 10px #667eea; }
+        to { text-shadow: 0 0 20px #667eea, 0 0 30px #667eea; }
+      }
+
+      h1 {
+        color: #2c3e50;
+        font-size: 28px;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: #7f8c8d;
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      .section {
+        margin-bottom: 30px;
+        padding: 25px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+      }
+
+      .section-title {
+        color: #2c3e50;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .hint {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 20px;
+        line-height: 1.5;
+        padding: 15px;
+        background: #e3f2fd;
+        border-radius: 10px;
+        border-left: 4px solid #2196f3;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        align-items: center;
+      }
+
+      .input-container {
+        flex: 1;
+        position: relative;
+      }
+
+      input[type=text] {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e1e8ed;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      input[type=text]:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .btn {
+        padding: 15px 25px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-danger {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .btn-danger:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .whitelist {
+        max-height: 400px;
+        overflow-y: auto;
+        border-radius: 12px;
+      }
+
+      .whitelist::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .whitelist::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .whitelist::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 4px;
+      }
+
+      .domain-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        margin-bottom: 8px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e1e8ed;
+        transition: all 0.3s ease;
+        animation: fade-in 0.5s ease-out;
+      }
+
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      .domain-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-color: #667eea;
+      }
+
+      .domain-name {
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .footer {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #e1e8ed;
+        color: #6c757d;
+        font-size: 14px;
+      }
+
+      .code {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: #00ff41;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+      }
+
+      .toast.show {
+        transform: translateX(0);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6c757d;
+      }
+
+      .empty-state-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+      }
+
+      @media (max-width: 600px) {
+        .container { padding: 20px; margin: 10px; }
+        .input-row { flex-direction: column; }
+        .btn { width: 100%; }
+        .stats { grid-template-columns: 1fr; }
+      }
+
+      /* Loading animation */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
-    <h1>Whitelist Management</h1>
-    <p class="hint">Add domains to allow beyond <code>.com</code> and <code>.org</code>. Examples: <code>example.net</code>, <code>sub.domain.edu</code>.</p>
-    <div class="row">
-      <input id="domain" type="text" placeholder="example.net" />
-      <button id="add">Add</button>
+    <div class="container">
+      <div class="header">
+        <div class="logo">🛡️</div>
+        <h1>Cyber Guardian Settings</h1>
+        <div class="subtitle">Advanced Domain Filtering & Security Management</div>
+        <button id="backBtn" type="button" class="btn btn-primary" style="margin-top: 20px;">⬅️ Back</button>
+      </div>
+
+      <div class="stats" id="stats">
+        <div class="stat-card">
+          <div class="stat-number" id="totalDomains">0</div>
+          <div class="stat-label">Whitelisted Domains</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Base TLDs Allowed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Domains Blocked</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          ➕ Add Trusted Domain
+        </div>
+        <div class="hint">
+          <strong>💡 Pro Tip:</strong> Add domains to allow beyond <span class="code">.com</span> and <span class="code">.org</span>. 
+          Examples: <span class="code">github.io</span>, <span class="code">stackoverflow.co.uk</span>, <span class="code">university.edu</span>
+        </div>
+        <div class="input-row">
+          <div class="input-container">
+            <input id="domain" type="text" placeholder="Enter domain (e.g., example.net)" autocomplete="off" />
+          </div>
+          <button id="add" type="button" class="btn btn-primary">
+            <span id="addText">Add Domain</span>
+            <span id="addLoader" class="loading" style="display: none;"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          📋 Whitelisted Domains
+        </div>
+        <div class="whitelist" id="whitelist">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">🔒</div>
+            <div>No custom domains added yet</div>
+            <div style="font-size: 12px; margin-top: 10px;">Only .com and .org domains are currently allowed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p><strong>🔒 Security Note:</strong> Changes apply immediately. Rules are enforced by Chrome, independent of VPN or proxy settings.</p>
+        <p style="margin-top: 10px; font-size: 12px;">Cyber Guardian v2.1.0 - Protecting your digital workspace || Made With ❤️ By Eshwar and Team </p>
+      </div>
     </div>
 
-    <ul id="list"></ul>
-    <p class="muted">Changes apply immediately. Rules are enforced by Chrome, independent of VPN or proxy.</p>
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
 
-    <script>
-      const listEl = document.getElementById('list');
-      const inputEl = document.getElementById('domain');
-      const addBtn = document.getElementById('add');
-
-      function normDomain(d) {
-        return d.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/$/, '');
-      }
-
-      async function load() {
-        const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
-        render(whitelist);
-      }
-
-      function render(items) {
-        listEl.innerHTML = '';
-        items.forEach((d, idx) => {
-          const li = document.createElement('li');
-          const span = document.createElement('span');
-          span.textContent = d;
-          const btn = document.createElement('button');
-          btn.textContent = 'Remove';
-          btn.className = 'danger';
-          btn.addEventListener('click', async () => {
-            const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
-            const next = whitelist.filter(x => x !== d);
-            await chrome.storage.sync.set({ whitelist: next });
-            render(next);
-          });
-          li.appendChild(span);
-          li.appendChild(btn);
-          listEl.appendChild(li);
-        });
-      }
-
-      addBtn.addEventListener('click', async () => {
-        const raw = inputEl.value;
-        const val = normDomain(raw);
-        if (!val) return;
-        const { whitelist = [] } = await chrome.storage.sync.get({ whitelist: [] });
-        if (whitelist.includes(val)) {
-          inputEl.value = '';
-          return;
-        }
-        const next = [...whitelist, val];
-        await chrome.storage.sync.set({ whitelist: next });
-        inputEl.value = '';
-        render(next);
-      });
-
-      inputEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') addBtn.click();
-      });
-
-      load();
-    </script>
+    <script src="options.js"></script>
   </body>
 </html>

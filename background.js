@@ -35,14 +35,6 @@ async function setBaseRules() {
       condition: {
         regexFilter: '^https?:\\/\\/([^\/]+\\.)*[^\/:]+\\.org([\/:]|$)',
         resourceTypes: ["main_frame"],
-      }},
-      {
-      id: BASE_RULE_IDS.ALLOW_ORG,
-      priority: 110,
-      action: { type: "allow" },
-      condition: {
-        regexFilter: '^https?:\\/\\/([^\/]+\\.)*[^\/:]+\\.in([\/:]|$)',
-        resourceTypes: ["main_frame"],
       },
     },
     {
