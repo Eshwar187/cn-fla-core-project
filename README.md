@@ -45,8 +45,7 @@
 ### Method 1: Developer Mode (Recommended)
 1. **Download the extension**:
    ```bash
-   git clone https://github.com/user/cyber-guardian.git
-   cd cyber-guardian/chrome-site-filter
+   git clone https://github.com/Eshwar187/cn-fla-core-project
    ```
 
 2. **Open Chrome Extensions**:
